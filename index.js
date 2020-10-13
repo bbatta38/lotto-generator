@@ -1,5 +1,5 @@
 window.onload = () => {
-  axios.get("./numbers.json").then((value) => {
+  axios.get("/lotto-generator/numbers.json").then((value) => {
     const BL = [];
     const OR = [];
     const GR = [];
