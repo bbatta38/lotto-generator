@@ -39,20 +39,20 @@ window.onload = () => {
         return a;
       }, [])
       .sort((a, b) => b.total - a.total);
-    const evenNumbers = value.data
-      .map((da) => da.num.reduce((a, n) => (n % 2 === 0 ? a + 1 : a), 0))
-      .reduce((a, b) => {
-        const existedNumber = a.find((even) => even.number === b);
-        if (existedNumber) {
-          existedNumber.total += 1;
-          existedNumber.percentage = Math.round(
-            (existedNumber.total / value.data.length) * 100
-          );
-        } else {
-          a.push({ number: b, total: 1, percentage: 0 });
-        }
-        return a;
-      }, []);
+    // const evenNumbers = value.data
+    //   .map((da) => da.num.reduce((a, n) => (n % 2 === 0 ? a + 1 : a), 0))
+    //   .reduce((a, b) => {
+    //     const existedNumber = a.find((even) => even.number === b);
+    //     if (existedNumber) {
+    //       existedNumber.total += 1;
+    //       existedNumber.percentage = Math.round(
+    //         (existedNumber.total / value.data.length) * 100
+    //       );
+    //     } else {
+    //       a.push({ number: b, total: 1, percentage: 0 });
+    //     }
+    //     return a;
+    //   }, []);
 
     const powers = value.data
       .reduce((a, d) => {
@@ -86,7 +86,8 @@ window.onload = () => {
     const gr = GR.reduce(getProbability, []).sort((a, b) => b.total - a.total);
     const rd = RD.reduce(getProbability, []).sort((a, b) => b.total - a.total);
 
-    new App({ patterns, powers, bl, or, gr, rd, evenNumbers });
+    new App({ patterns, powers, bl, or, gr, rd });
+    // new App({ patterns, powers, bl, or, gr, rd, evenNumbers });
   });
 };
 
@@ -94,13 +95,13 @@ class App {
   constructor(data) {
     this.powers = data.powers;
     this.patterns = data.patterns;
-    this.evenNumbers = data.evenNumbers;
+    // this.evenNumbers = data.evenNumbers;
     this.BL = data.bl;
     this.OR = data.or;
     this.GR = data.gr;
     this.RD = data.rd;
     const btn = document.getElementById("numberClickBtn");
-    this.even = this.getChanceByPercentage(this.evenNumbers).number;
+    // this.even = this.getChanceByPercentage(this.evenNumbers).number;
     btn.addEventListener("click", this.getNumber.bind(this), false);
   }
 
@@ -152,10 +153,13 @@ class App {
       }
     });
     const lang = numByPattern.filter((num) => num % 2 === 0).length;
-    while (lang !== this.even || numByPattern.length !== 6) {
+    // while (lang !== this.even || numByPattern.length !== 6) {
+    while (lang !== 3 || numByPattern.length !== 6) {
       return this.getNumbersByPattern(this.totalPattern);
     }
-    return numByPattern;
+
+    return numByPattern.sort((a, b) => a - b);
+    // return numByPattern;
   };
 
   getFilteredNum = (arr) => {
